@@ -15,7 +15,10 @@ public class ShoppingCartEntity extends LandVehicleEntity
 
     public ShoppingCartEntity(EntityType<? extends ShoppingCartEntity> type, Level worldIn)
     {
+
         super(type, worldIn);
+        this.setRequiresFuel(false);
+
     }
 
     @Override

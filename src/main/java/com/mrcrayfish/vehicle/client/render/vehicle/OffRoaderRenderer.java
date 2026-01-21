@@ -16,6 +16,7 @@ import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
+import com.mrcrayfish.vehicle.entity.PoweredVehicleEntity;
 
 import javax.annotation.Nullable;
 

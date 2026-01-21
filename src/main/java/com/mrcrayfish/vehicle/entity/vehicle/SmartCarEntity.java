@@ -13,4 +13,6 @@ public class SmartCarEntity extends LandVehicleEntity
     {
         super(type, worldIn);
     }
+
+
 }

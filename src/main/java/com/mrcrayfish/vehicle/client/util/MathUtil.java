@@ -1,37 +1,10 @@
 package com.mrcrayfish.vehicle.client.util;
 
+import com.mrcrayfish.vehicle.util.port.Quaternion;
 import net.minecraft.util.Mth;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 
 public class MathUtil
 {
-
-
-    public static float getPitch(Quaternionf quaternion)
-    {
-        // Use the JOML Vector3f internally to get the Euler angles
-        Vector3f euler = quaternion.getEulerAnglesXYZ(new Vector3f());
-        return (float) Math.toDegrees(euler.x);
-    }
-
-    /**
-     * Gets the yaw (Y-axis rotation) in degrees from a quaternion.
-     */
-    public static float getYaw(Quaternionf quaternion)
-    {
-        Vector3f euler = quaternion.getEulerAnglesXYZ(new Vector3f());
-        return (float) Math.toDegrees(euler.y);
-    }
-
-    /**
-     * Gets the roll (Z-axis rotation) in degrees from a quaternion)
-     */
-    public static float getRoll(Quaternionf quaternion)
-    {
-        Vector3f euler = quaternion.getEulerAnglesXYZ(new Vector3f());
-        return (float) Math.toDegrees(euler.z);
-    }
     /**
      * Spherically interpolates between two quaternions with a weight
      * Source taken from Bones framework for JPCT, see <a href="https://github.com/raftAtGit/Bones">...</a>
@@ -41,7 +14,7 @@ public class MathUtil
      * @param end the destination quaternion
      * @param t the weight of the interpolation in the range of [0, 1]
      */
-    public static Quaternionf slerp(Quaternionf start, Quaternionf end, float t)
+    public static Quaternion slerp(Quaternion start, Quaternion end, float t)
     {
         // Skip operation if equal
         if(start.equals(end))
@@ -52,7 +25,7 @@ public class MathUtil
         float dot = start.x() * end.x() + start.y() * end.y() + start.z() * end.z() + start.w() * end.w();
         if(dot < 0.0F)
         {
-            end = new Quaternionf(-end.x(), -end.y(), -end.z(), -end.w());
+            end = new Quaternion(-end.x(), -end.y(), -end.z(), -end.w());
             dot = -dot;
         }
 
@@ -74,6 +47,6 @@ public class MathUtil
         float k = (scale0 * start.z()) + (scale1 * end.z());
         float r = (scale0 * start.w()) + (scale1 * end.w());
 
-        return new Quaternionf(i, j, k, r);
+        return new Quaternion(i, j, k, r);
     }
 }

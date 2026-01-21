@@ -18,7 +18,8 @@
     "extended": {
       "vehicle:powered": {
         "frontAxleOffset": 9.5,
-        "rearAxleOffset": -12.5
+        "rearAxleOffset": -12.5,
+        "requiresEnergy": false
       }
     },
     "heldOffset": [

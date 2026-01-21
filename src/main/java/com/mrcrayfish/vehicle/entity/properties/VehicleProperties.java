@@ -373,7 +373,7 @@ public class VehicleProperties
             NETWORK_VEHICLE_PROPERTIES.putAll(provider.getVehiclePropertiesMap());
         });
 
-    //    Minecraft.getInstance().gui.setOverlayMessage(new StringTextComponent("Refreshed vehicle properties!"), false);
+        //    Minecraft.getInstance().gui.setOverlayMessage(new StringTextComponent("Refreshed vehicle properties!"), false);
     }
 
     public static class Serializer implements JsonDeserializer<VehicleProperties>, JsonSerializer<VehicleProperties>

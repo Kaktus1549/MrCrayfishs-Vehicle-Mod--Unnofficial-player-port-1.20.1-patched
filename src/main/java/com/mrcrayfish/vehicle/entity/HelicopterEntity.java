@@ -1,5 +1,6 @@
 package com.mrcrayfish.vehicle.entity;
 
+import com.mrcrayfish.vehicle.Config;
 import com.mrcrayfish.vehicle.client.VehicleHelper;
 import com.mrcrayfish.vehicle.entity.properties.HelicopterProperties;
 import com.mrcrayfish.vehicle.network.PacketHandler;
@@ -65,6 +66,43 @@ public abstract class HelicopterEntity extends PoweredVehicleEntity
     @Override
     public void updateVehicleMotion()
     {
+        boolean fuelSystemActive = Config.SERVER.fuelEnabled.get() && this.requiresEnergy();
+        boolean isCreative = this.getControllingPassenger() instanceof Player player && player.isCreative();
+        boolean hasFuel = this.getCurrentEnergy() > 0F;
+
+
+
+        if (!this.canDrive())
+        {
+            this.setThrottle(0F);
+            this.velocity = Vec3.ZERO;
+            this.motion = Vec3.ZERO;
+            return;
+        }
+
+        if(this.requiresEnergy()) // This already checks Config.SERVER.fuelEnabled.get()
+        {
+            // Check if player is in creative mode
+
+
+
+            // If NOT creative and has no fuel, prevent movement
+            if(!isCreative && !this.isFueled())
+            {
+                this.setThrottle(0F);
+                this.velocity = Vec3.ZERO;
+                this.motion = Vec3.ZERO;
+
+                // Show out of fuel message
+                if(this.getControllingPassenger() instanceof Player player && this.tickCount % 40 == 0)
+                {
+                    CommonUtils.sendInfoMessage(player, "vehicle.status.out_of_fuel");
+                }
+                return;
+            }
+        }
+
+        // Vehicle can move - continue with normal motion code
         this.motion = Vec3.ZERO;
 
         boolean operating = this.canDrive() && this.getControllingPassenger() != null;

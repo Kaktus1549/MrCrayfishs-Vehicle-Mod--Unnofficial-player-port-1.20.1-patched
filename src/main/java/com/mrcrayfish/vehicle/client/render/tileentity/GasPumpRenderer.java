@@ -19,6 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -35,6 +36,10 @@ import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.tuple.Triple;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderStateShard;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import javax.annotation.Nullable;
 
@@ -44,6 +49,32 @@ import javax.annotation.Nullable;
 public class GasPumpRenderer implements BlockEntityRenderer<GasPumpBlockEntity>
 {
     private final Font font;
+
+    private static abstract class HoseRenderType extends RenderType {
+        // Dummy constructor
+        private HoseRenderType(String name, VertexFormat format, VertexFormat.Mode mode, int bufferSize, boolean affectsCrumbling, boolean sortOnUpload, Runnable setupState, Runnable clearState) {
+            super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);
+        }
+
+        public static final RenderType HOSE = create(
+                "vehicle_hose",
+                DefaultVertexFormat.POSITION_COLOR_LIGHTMAP,
+                VertexFormat.Mode.TRIANGLE_STRIP,
+                256,
+                false,
+                false,
+                RenderType.CompositeState.builder()
+
+                        // FIX: Access the protected static field directly.
+                        // If the error persists, check your mappings again.
+                        .setShaderState(POSITION_COLOR_LIGHTMAP_SHADER)
+
+                        .setTransparencyState(NO_TRANSPARENCY)
+                        .setCullState(NO_CULL)
+                        .setLightmapState(LIGHTMAP)
+                        .createCompositeState(false)
+        );
+    }
 
     public GasPumpRenderer(BlockEntityRendererProvider.Context ctx)
     {
@@ -191,7 +222,7 @@ public class GasPumpRenderer implements BlockEntityRenderer<GasPumpBlockEntity>
 
         matrixStack.pushPose();
 
-        VertexConsumer builder = buffer.getBuffer(RenderType.leash());
+        VertexConsumer builder = buffer.getBuffer(HoseRenderType.HOSE);
 
         int segments = Config.CLIENT.hoseSegments.get();
         for(int i = 0; i < spline.getSize() - 1; i++)

@@ -129,15 +129,15 @@
 
       "fuelFillerTransform": {
         "rotation": [
-          -8.0,
-          6.0,
-          -8.0
-        ],
-        "scale": 0.0,
-        "translate": [
-          -90.0,
           0.0,
-          0.25
+          -90.0,
+          0.0
+        ],
+        "scale": 0.70,
+        "translate": [
+          -12.0,
+          10.0,
+          -8.75
         ]
       },
       "ignitionTransform": {

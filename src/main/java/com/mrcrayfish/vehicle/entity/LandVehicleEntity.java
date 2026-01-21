@@ -10,11 +10,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
+import com.mrcrayfish.vehicle.Config;
 import javax.annotation.Nullable;
 
 /**
@@ -77,7 +78,45 @@ public abstract class LandVehicleEntity extends PoweredVehicleEntity
 
     @Override
     public void updateVehicleMotion()
+
     {
+        boolean fuelSystemActive = Config.SERVER.fuelEnabled.get() && this.requiresEnergy();
+        boolean isCreative = this.getControllingPassenger() instanceof Player player && player.isCreative();
+        boolean hasFuel = this.getCurrentEnergy() > 0F;
+
+
+
+        if (!this.canDrive())
+        {
+            this.setThrottle(0F);
+            this.velocity = Vec3.ZERO;
+            this.motion = Vec3.ZERO;
+            return;
+        }
+
+        if(this.requiresEnergy()) // This already checks Config.SERVER.fuelEnabled.get()
+        {
+            // Check if player is in creative mode
+
+
+
+            // If NOT creative and has no fuel, prevent movement
+            if(!isCreative && !this.isFueled())
+            {
+                this.setThrottle(0F);
+                this.velocity = Vec3.ZERO;
+                this.motion = Vec3.ZERO;
+
+                // Show out of fuel message
+                if(this.getControllingPassenger() instanceof Player player && this.tickCount % 40 == 0)
+                {
+                    CommonUtils.sendInfoMessage(player, "vehicle.status.out_of_fuel");
+                }
+                return;
+            }
+        }
+
+        // Vehicle can move - continue with normal motion code
         this.motion = Vec3.ZERO;
 
         VehicleProperties properties = this.getProperties();

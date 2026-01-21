@@ -83,6 +83,7 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
     protected static final EntityDataAccessor<Float> STEP_HEIGHT = SynchedEntityData.defineId(PoweredVehicleEntity.class, EntityDataSerializers.FLOAT);
     protected static final EntityDataAccessor<Boolean> HANDBRAKE = SynchedEntityData.defineId(PoweredVehicleEntity.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Float> STEERING_ANGLE = SynchedEntityData.defineId(PoweredVehicleEntity.class, EntityDataSerializers.FLOAT);
+    protected static final EntityDataAccessor<Boolean> REQUIRES_FUEL = SynchedEntityData.defineId(PoweredVehicleEntity.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Boolean> HORN = SynchedEntityData.defineId(PoweredVehicleEntity.class, EntityDataSerializers.BOOLEAN);
     protected static final EntityDataAccessor<Float> CURRENT_FUEL = SynchedEntityData.defineId(PoweredVehicleEntity.class, EntityDataSerializers.FLOAT);
     protected static final EntityDataAccessor<Boolean> NEEDS_KEY = SynchedEntityData.defineId(PoweredVehicleEntity.class, EntityDataSerializers.BOOLEAN);
@@ -114,6 +115,7 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
     protected float chargingAmount;
     private double[] wheelPositions;
     private boolean fueling;
+    public boolean needs_fueling;
     protected Vec3 motion = Vec3.ZERO;
     private SimpleContainer vehicleInventory;
     //protected AccelerationDirection prevAcceleration;
@@ -149,6 +151,7 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         super.defineSynchedData();
         this.entityData.define(THROTTLE, 0F);
         this.entityData.define(HANDBRAKE, false);
+        this.entityData.define(REQUIRES_FUEL, true);
         this.entityData.define(STEERING_ANGLE, 0F);
         this.entityData.define(HORN, false);
         this.entityData.define(CURRENT_FUEL, 0F);
@@ -168,6 +171,12 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
     public void setMaxSpeed(float maxSpeed)
     {
         this.entityData.set(MAX_SPEED, maxSpeed);
+    }
+
+    public void setRequiresFuel(boolean required){this.entityData.set(REQUIRES_FUEL, required);}
+
+    public boolean getRequiresFuel() {
+        return this. entityData.get(REQUIRES_FUEL);
     }
 
     public float getMaxSpeed()
@@ -207,6 +216,23 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         return this.onGround();
     }
 
+    private boolean isFueling = false;
+    private int fuelingTicks = 0;
+
+    public boolean isFueling()
+    {
+        return this.isFueling;
+    }
+
+    public void setFueling(boolean fueling)
+    {
+        this.isFueling = fueling;
+        if(fueling)
+        {
+            this.fuelingTicks = 0;
+        }
+    }
+
     public float getNormalSpeed()
     {
         return this.currentSpeed / this.getMaxSpeed();
@@ -224,29 +250,47 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
 
     public void fuelVehicle(Player player, InteractionHand hand)
     {
+        // Set fueling state
+        this.setFueling(true);
+
         if(SyncedEntityData.instance().get(player, ModDataKeys.GAS_PUMP).isPresent())
         {
             BlockPos pos = SyncedEntityData.instance().get(player, ModDataKeys.GAS_PUMP).get();
             BlockEntity tileEntity = this.level().getBlockEntity(pos);
             if(!(tileEntity instanceof GasPumpBlockEntity))
+            {
+                this.setFueling(false);
                 return;
+            }
 
             tileEntity = this.level().getBlockEntity(pos.below());
             if(!(tileEntity instanceof GasPumpTankBlockEntity gasPumpTank))
+            {
+                this.setFueling(false);
                 return;
+            }
 
             FluidTank tank = gasPumpTank.getFluidTank();
             FluidStack stack = tank.getFluid();
             if(stack.isEmpty() || !Config.SERVER.validFuels.get().contains(ForgeRegistries.FLUIDS.getKey(stack.getFluid()).toString()))
+            {
+                this.setFueling(false);
                 return;
+            }
 
             stack = tank.drain(200, IFluidHandler.FluidAction.EXECUTE);
             if(stack.isEmpty())
+            {
+                this.setFueling(false);
                 return;
+            }
 
             stack.setAmount(this.addEnergy(stack.getAmount()));
             if(stack.getAmount() <= 0)
+            {
+                this.setFueling(false);
                 return;
+            }
 
             gasPumpTank.getFluidTank().fill(stack, IFluidHandler.FluidAction.EXECUTE);
             return;
@@ -254,23 +298,84 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
 
         ItemStack stack = player.getItemInHand(hand);
         if(!(stack.getItem() instanceof JerryCanItem jerryCan))
+        {
+            this.setFueling(false);
             return;
+        }
 
         Optional<IFluidHandlerItem> optional = stack.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).resolve();
         if(optional.isEmpty())
+        {
+            this.setFueling(false);
             return;
+        }
 
         IFluidHandlerItem handler = optional.get();
         FluidStack fluidStack = handler.getFluidInTank(0);
 
         if(fluidStack.isEmpty() || !Config.SERVER.validFuels.get().contains(ForgeRegistries.FLUIDS.getKey(fluidStack.getFluid()).toString()))
+        {
+            this.setFueling(false);
             return;
+        }
 
         int transferAmount = Math.min(handler.getFluidInTank(0).getAmount(), jerryCan.getFillRate());
         transferAmount = (int) Math.min(Math.floor(this.getEnergyCapacity() - this.getCurrentEnergy()), transferAmount);
         handler.drain(transferAmount, IFluidHandler.FluidAction.EXECUTE);
         this.addEnergy(transferAmount);
+
+        // Done fueling
+        this.setFueling(false);
     }
+
+    /**
+     * Checks if the player clicked on the fuel port based on hit position
+     */
+    /**
+     * Checks if the player clicked on the fuel port based on hit position
+     */
+    /**
+     * Checks if the player clicked on the fuel port based on hit position
+     */
+    private boolean isFuelPortClicked(Vec3 hitVec)
+    {
+        Transform fuelFillerTransform = this.getPoweredProperties().getFuelFillerTransform();
+
+        if(fuelFillerTransform == null)
+        {
+            return false;
+        }
+
+        // Get the fuel filler position from the transform
+        Vec3 fuelFillerPos = new Vec3(
+                fuelFillerTransform.getX()
+,
+                fuelFillerTransform.getY(),
+                fuelFillerTransform.getZ()
+        );
+
+        // Rotate hit vector to match vehicle rotation
+        Vec3 rotated = hitVec.yRot((float) Math.toRadians(this.getYRot()));
+        // Scale to match vehicle coordinate system (1 unit = 1/16 block)
+        Vec3 localHit = new Vec3(rotated.x * 16.0, rotated.y * 16.0, rotated.z * 16.0);
+
+        // Account for body transform
+        VehicleProperties properties = this.getProperties();
+        Transform bodyTransform = properties.getBodyTransform();
+
+        // Adjust fuel filler position by body transform and offsets
+        Vec3 adjustedFuelFillerPos = fuelFillerPos
+                .add(bodyTransform.getX(), bodyTransform.getY(), bodyTransform.getZ())
+                .add(0, properties.getAxleOffset() + properties.getWheelOffset(), 0);
+
+        // Check distance to fuel filler - MUCH TIGHTER tolerance
+        double distance = adjustedFuelFillerPos.distanceTo(localHit);
+
+        // Reduce from 48 to 8 units (~0.5 blocks instead of 3 blocks)
+        return distance < 8.0;
+    }
+
+
 
     @Override
     public @NotNull InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand)
@@ -331,6 +436,50 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
             }
         }
         return super.interact(player, hand);
+    }
+
+    @Override
+    @NotNull
+    public InteractionResult interactAt(@NotNull Player player, @NotNull Vec3 hitVec, @NotNull InteractionHand hand)
+    {
+        if(player.isCrouching())
+        {
+            return InteractionResult.PASS;
+        }
+
+        // Client-side: just return success
+        if(this.level().isClientSide)
+        {
+            return InteractionResult.SUCCESS;
+        }
+
+        // SERVER-SIDE ONLY: Check for fuel port interaction FIRST
+        // Only show fuel port if fuel system is active and player is not in creative
+        boolean fuelSystemActive = Config.SERVER.fuelEnabled.get() && this.requiresEnergy();
+
+
+        if(fuelSystemActive && this.shouldRenderFuelPort() && this.isFuelPortClicked(hitVec))
+        {
+            ItemStack heldItem = player.getItemInHand(hand);
+
+            // Check if player has an active gas pump OR is holding jerry can
+            boolean hasGasPump = SyncedEntityData.instance().get(player, ModDataKeys.GAS_PUMP).isPresent();
+            boolean hasJerryCan = heldItem.getItem() instanceof JerryCanItem;
+
+            if(hasJerryCan || hasGasPump)
+            {
+                this.playFuelPortOpenSound();
+                this.fuelVehicle(player, hand);
+                return InteractionResult.CONSUME;
+            }
+
+            // Clicked fuel port but no valid fuel source
+            CommonUtils.sendInfoMessage(player, "vehicle.status.need_fuel_source");
+            return InteractionResult.FAIL;
+        }
+
+        // Fall back to cosmetic interactions and mounting
+        return super.interactAt(player, hitVec, hand);
     }
 
     @Override
@@ -415,6 +564,9 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
             if(currentFuel < 0F) currentFuel = 0F;
             this.setCurrentEnergy(currentFuel);
         }
+
+        // In your vehicle renderer
+
 
         if(this.level().isClientSide())
         {
@@ -731,9 +883,11 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         return this.getPoweredProperties().requiresEnergy() && Config.SERVER.fuelEnabled.get();
     }
 
+
+
     public boolean isFueled()
     {
-        return !this.requiresEnergy() || this.isControllingPassengerCreative() || this.getCurrentEnergy() > 0F;
+        return !this.requiresEnergy() || !Config.SERVER.fuelEnabled.get() || this.isControllingPassengerCreative() || this.getCurrentEnergy() > 0F;
     }
 
     public void setCurrentEnergy(float fuel)
@@ -963,6 +1117,7 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
     {
         super.onVehicleDestroyed(entity);
         boolean isCreativeMode = entity instanceof Player && ((Player) entity).isCreative();
+
         if(!isCreativeMode && this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS))
         {
             // Spawns the engine if the vehicle has one

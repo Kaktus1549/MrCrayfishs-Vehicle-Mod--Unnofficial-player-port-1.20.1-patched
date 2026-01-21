@@ -11,6 +11,7 @@
   "client": [
     "client.GameRendererMixin",
     "client.ShadersRenderMixin"
+
   ],
   "injectors": {
     "defaultRequire": 1

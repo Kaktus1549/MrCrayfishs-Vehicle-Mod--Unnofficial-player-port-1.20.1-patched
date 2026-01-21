@@ -198,5 +198,6 @@
     "vehicle.toolbar.label.spoiler": "Spoiler",
     "vehicle.toolbar.label.hood": "Hood",
     "vehicle.toolbar.label.driver_seat": "Driver Seat",
-    "vehicle.toolbar.label.passenger_seat": "Passenger Seat"
+    "vehicle.toolbar.label.passenger_seat": "Passenger Seat",
+    "vehicle.status.need_fuel_source": "I need a fuel source to fuel this vehicle!"
 }

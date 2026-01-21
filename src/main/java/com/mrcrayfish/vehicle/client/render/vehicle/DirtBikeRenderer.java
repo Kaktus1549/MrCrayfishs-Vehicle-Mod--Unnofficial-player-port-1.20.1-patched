@@ -32,7 +32,7 @@ public class DirtBikeRenderer extends AbstractMotorcycleRenderer<DirtBikeEntity>
     {
         // Render the main body of the dirt bike
         this.renderDamagedPart(vehicle, VehicleModels.DIRT_BIKE_BODY, matrixStack, renderTypeBuffer, light, partialTicks);
-        this.renderSteeringWheel(vehicle, VehicleModels.DIRT_BIKE_HANDLES, 1.0, 0.75, -3.3375, 0.7F, -19F, matrixStack, renderTypeBuffer, light, partialTicks);
+        this.renderSteeringWheel(vehicle, VehicleModels.DIRT_BIKE_HANDLES, 1.0, 0.75, -2.3375, 0.7F, -19F, matrixStack, renderTypeBuffer, light, partialTicks);
 
         // If you uncomment the below code, add push/popPose back as needed
         /*

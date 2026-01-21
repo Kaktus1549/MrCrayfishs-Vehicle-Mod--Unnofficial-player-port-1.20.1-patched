@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
  */
 public class OffRoaderEntity extends LandVehicleEntity
 {
+
     public OffRoaderEntity(EntityType<? extends OffRoaderEntity> type, Level worldIn)
     {
         super(type, worldIn);

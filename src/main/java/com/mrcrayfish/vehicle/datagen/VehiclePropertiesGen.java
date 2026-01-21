@@ -355,7 +355,7 @@ public class VehiclePropertiesGen extends VehiclePropertiesProvider
                         .setEngineType(EngineType.LARGE_MOTOR)
                         .setEnginePower(14F)
                         .setMinEnginePitch(0.75F)
-                        .setFuelFillerTransform(Transform.create(-12.0, 10.0, -8.75, 0.0, -90.0, 0.0, 0.5))
+                        .setFuelFillerTransform(Transform.create(-12.0, 10.0, -8.75, 0.0, -90.0, 0.0, 0.70))
                         .setIgnitionTransform(Transform.create(0.0, 6.75, 19.5, -67.5, 0.0, 0.0, 0.5))
                         .setFrontAxleOffset(13.5)
                         .setRearAxleOffset(-13.5)
@@ -647,6 +647,7 @@ public class VehiclePropertiesGen extends VehiclePropertiesProvider
                         .setFrontAxleOffset(9.5)
                         .setRearAxleOffset(-10.5)
                         .setMaxSteeringAngle(33F)
+                        .setRequiresEnergy(false)
                         .build()));
 
 //        this.add(ModEntities.SPORTS_CAR.get(), VehicleProperties.builder()

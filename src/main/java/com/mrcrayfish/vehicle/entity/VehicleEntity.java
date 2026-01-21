@@ -313,10 +313,18 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
     @NotNull
     public InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand)
     {
-        if(this.level().isClientSide || player.isCrouching())
+        if(player.isCrouching())
+        {
+            return InteractionResult.PASS;
+        }
+
+        // CLIENT-SIDE: Return success to prevent further processing
+        if(this.level().isClientSide)
         {
             return InteractionResult.SUCCESS;
         }
+
+        // SERVER-SIDE ONLY below this point
 
         int trailerId = SyncedEntityData.instance().get(player, ModDataKeys.TRAILER);
         if(trailerId != -1)
@@ -335,6 +343,7 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
 
         ItemStack heldItem = player.getItemInHand(hand);
 
+        // SPRAY CAN CHECK
         if(heldItem.getItem() instanceof SprayCanItem)
         {
             if(this.getProperties().canBePainted())
@@ -362,6 +371,8 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
             }
             return InteractionResult.SUCCESS;
         }
+
+        // HAMMER CHECK
         else if(heldItem.getItem() == ModItems.HAMMER.get() && this.getVehicle() instanceof EntityJack)
         {
             if(this.getHealth() < this.getMaxHealth())
@@ -378,7 +389,6 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
                 {
                     if(level() instanceof ServerLevel)
                     {
-                        //TODO send as single packet instead of multiple
                         int count = (int) (50 * (this.getBbWidth() * this.getBbHeight()));
                         for(int i = 0; i < count; i++)
                         {
@@ -401,6 +411,8 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
             }
             return InteractionResult.SUCCESS;
         }
+
+        // MOUNTING CHECK - ONLY after all other interactions have been checked
         else if(this.canRide(player))
         {
             int seatIndex = this.seatTracker.getClosestAvailableSeatToPlayer(player);
@@ -1150,6 +1162,7 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
             Vec3 seatOffset = seat.getPosition()
                     .add(0, properties.getAxleOffset() + properties.getWheelOffset(), 0)
                     .scale(properties.getBodyTransform().getScale())
+                    .multiply(-1, 1, 1)
                     .scale(0.0625);
 
             // Rotate around vehicle yaw
@@ -1201,8 +1214,12 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
                             }
                             if(this.canApplyYawOffset(passenger) && Config.CLIENT.shouldFollowYaw.get())
                             {
+
                                 passenger.yRot -= Mth.degreesDifference(this.yRot - this.passengerYawOffset, passenger.getYRot());
                                 passenger.setYHeadRot(passenger.getYRot());
+
+
+
                             }
                         }
 

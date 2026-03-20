@@ -820,13 +820,11 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         return IEngineTier.fromStack(this.getEngineStack());
     }
 
-    @OnlyIn(Dist.CLIENT)
     public final boolean shouldRenderEngine()
     {
         return this.getPoweredProperties().isRenderEngine();
     }
 
-    @OnlyIn(Dist.CLIENT)
     public boolean shouldRenderFuelPort()
     {
         return true;

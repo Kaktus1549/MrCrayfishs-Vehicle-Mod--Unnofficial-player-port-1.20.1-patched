@@ -52,7 +52,7 @@
 ////        this.writeInventories(compound);
 ////    }
 ////
-////    
+////    @OnlyIn(Dist.CLIENT)
 ////    public static void registerInteractionBoxes()
 ////    {
 ////        Minecraft minecraft = Minecraft.getInstance();

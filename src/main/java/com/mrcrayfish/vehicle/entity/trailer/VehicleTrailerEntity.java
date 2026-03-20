@@ -80,7 +80,7 @@ public class VehicleTrailerEntity extends TrailerEntity
         return passenger instanceof VehicleEntity && this.getPassengers().size() == 0;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public static void registerInteractionBoxes()
     {
         EntityRayTracer.instance().registerInteractionBox(ModEntities.VEHICLE_TRAILER.get(), () -> {

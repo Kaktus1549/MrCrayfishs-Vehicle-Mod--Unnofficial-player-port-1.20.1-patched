@@ -98,7 +98,7 @@ public class StorageTrailerEntity extends TrailerEntity implements IStorage
         }
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public static void registerInteractionBoxes()
     {
         Minecraft minecraft = Minecraft.getInstance();

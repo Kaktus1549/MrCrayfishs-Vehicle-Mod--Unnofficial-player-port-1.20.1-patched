@@ -235,7 +235,7 @@ public class FertilizerTrailerEntity extends TrailerEntity implements IStorage
         return this.inventory;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public static void registerInteractionBoxes()
     {
         EntityRayTracer.instance().registerInteractionBox(ModEntities.FERTILIZER.get(), () -> {

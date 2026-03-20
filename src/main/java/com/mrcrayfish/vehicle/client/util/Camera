@@ -31,7 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.mrcrayfish.vehicle.util.port.Quaternion;
 import org.joml.Vector3f;
 
-
+@OnlyIn(Dist.CLIENT)
 public class Camera {
     private boolean initialized;
     private BlockGetter level;
@@ -237,7 +237,7 @@ public class Camera {
         return !this.initialized ? Blocks.AIR.defaultBlockState() : this.level.getBlockState(this.blockPosition).getStateAtViewpoint(this.level, this.blockPosition, this.position);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public static class NearPlane {
         final Vec3 forward;
         private final Vec3 left;

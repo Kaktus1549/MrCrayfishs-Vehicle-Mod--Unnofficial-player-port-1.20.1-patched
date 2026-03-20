@@ -53,9 +53,9 @@ public class MopedEntity extends MotorcycleEntity implements IStorage, IAttachab
     @Nullable
     private StorageInventory inventory;
 
-    
+    @OnlyIn(Dist.CLIENT)
     private float openProgress;
-    
+    @OnlyIn(Dist.CLIENT)
     private float prevOpenProgress;
 
     public MopedEntity(EntityType<? extends MopedEntity> type, Level worldIn)
@@ -248,7 +248,7 @@ public class MopedEntity extends MotorcycleEntity implements IStorage, IAttachab
         return count;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public static void registerInteractionBoxes()
     {
         Minecraft minecraft = Minecraft.getInstance();
@@ -271,13 +271,13 @@ public class MopedEntity extends MotorcycleEntity implements IStorage, IAttachab
         }, entity -> !entity.hasChest());
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getOpenProgress()
     {
         return this.openProgress;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getPrevOpenProgress()
     {
         return this.prevOpenProgress;

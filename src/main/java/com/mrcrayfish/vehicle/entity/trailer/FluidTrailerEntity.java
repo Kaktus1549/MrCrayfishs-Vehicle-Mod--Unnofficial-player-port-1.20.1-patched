@@ -125,7 +125,7 @@ public class FluidTrailerEntity extends TrailerEntity implements IEntityAddition
         this.tank.readFromNBT(buffer.readNbt());
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public static void registerInteractionBoxes()
     {
         EntityRayTracer.instance().registerInteractionBox(ModEntities.FLUID_TRAILER.get(), () -> {

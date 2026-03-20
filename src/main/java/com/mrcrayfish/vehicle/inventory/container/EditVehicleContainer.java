@@ -64,7 +64,7 @@ public class EditVehicleContainer extends AbstractContainerMenu
         {
             for(int x = 0; x < 9; x++)
             {
-                this.addSlot(new Slot(playerInventory, x + y * 9 + 9, 8 + x * 18, 102 + y * 18));
+                this.addSlot(new Slot(playerInventory, x + y * 9 + 9, 8 + x * 18, 102 * y * 18));
             }
         }
 

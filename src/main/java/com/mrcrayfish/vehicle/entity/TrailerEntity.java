@@ -31,9 +31,9 @@ public abstract class TrailerEntity extends VehicleEntity
     @Nullable
     private Entity pullingEntity;
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float wheelRotation;
-    
+    @OnlyIn(Dist.CLIENT)
     public float prevWheelRotation;
 
     public TrailerEntity(EntityType<?> entityType, Level worldIn)
@@ -163,7 +163,7 @@ public abstract class TrailerEntity extends VehicleEntity
     }
 
     @Override
-    
+    @OnlyIn(Dist.CLIENT)
     public void lerpTo(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport)
     {
         this.lerpX = x;
@@ -191,7 +191,7 @@ public abstract class TrailerEntity extends VehicleEntity
     }
 
     @Override
-    
+    @OnlyIn(Dist.CLIENT)
     protected void updateWheelRotations()
     {
         this.prevWheelRotation = this.wheelRotation;
@@ -208,7 +208,7 @@ public abstract class TrailerEntity extends VehicleEntity
     }
 
     @Override
-    
+    @OnlyIn(Dist.CLIENT)
     public float getWheelRotation(@Nullable Wheel wheel, float partialTicks)
     {
         return this.prevWheelRotation + (this.wheelRotation - this.prevWheelRotation) * partialTicks;

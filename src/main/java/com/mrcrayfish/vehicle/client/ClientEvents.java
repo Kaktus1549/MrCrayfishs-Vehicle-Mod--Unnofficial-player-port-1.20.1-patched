@@ -14,7 +14,7 @@ import org.lwjgl.glfw.GLFW;
 /**
  * Author: MrCrayfish
  */
-@OnlyIn(Dist.CLIENT)
+
 public class ClientEvents
 {
     @SubscribeEvent

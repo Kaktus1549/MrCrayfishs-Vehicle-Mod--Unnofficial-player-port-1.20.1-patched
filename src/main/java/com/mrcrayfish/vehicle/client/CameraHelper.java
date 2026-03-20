@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  *
  * Author: MrCrayfish
  */
-@OnlyIn(Dist.CLIENT)
+
 public class CameraHelper
 {
     private static final Method SET_POSITION_METHOD = ObfuscationReflectionHelper.findMethod(Camera.class, "m_90584_", double.class, double.class, double.class);

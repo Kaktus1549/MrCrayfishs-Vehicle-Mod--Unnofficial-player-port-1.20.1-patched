@@ -26,16 +26,16 @@ public abstract class LandVehicleEntity extends PoweredVehicleEntity
     protected Vec3 velocity = Vec3.ZERO;
     protected float traction;
 
-    @OnlyIn(Dist.CLIENT)
+    
     protected float prevFrontWheelRotation, frontWheelRotation;
 
-    @OnlyIn(Dist.CLIENT)
+    
     protected float prevRearWheelRotation, rearWheelRotation;
 
-    @OnlyIn(Dist.CLIENT)
+    
     protected float rearWheelRotationSpeed, frontWheelRotationSpeed;
 
-    @OnlyIn(Dist.CLIENT)
+    
     protected int prevWheelieCount, wheelieCount;
 
     public LandVehicleEntity(EntityType<?> entityType, Level worldIn)
@@ -300,7 +300,7 @@ public abstract class LandVehicleEntity extends PoweredVehicleEntity
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    
     protected void updateEngineSound()
     {
         super.updateEngineSound();
@@ -312,7 +312,7 @@ public abstract class LandVehicleEntity extends PoweredVehicleEntity
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    
     protected void updateWheelRotations()
     {
         VehicleProperties properties = this.getProperties();
@@ -364,20 +364,20 @@ public abstract class LandVehicleEntity extends PoweredVehicleEntity
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public float getFrontWheelRotation(float partialTicks)
     {
         return this.prevFrontWheelRotation + (this.frontWheelRotation - this.prevFrontWheelRotation) * partialTicks;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public float getRearWheelRotation(float partialTicks)
     {
         return this.prevRearWheelRotation + (this.rearWheelRotation - this.prevRearWheelRotation) * partialTicks;
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    
     public float getWheelRotation(@Nullable Wheel wheel, float partialTicks)
     {
         if(wheel != null && wheel.getPosition() == Wheel.Position.REAR)
@@ -387,7 +387,7 @@ public abstract class LandVehicleEntity extends PoweredVehicleEntity
         return this.getFrontWheelRotation(partialTicks);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public float getWheelieProgress(float partialTicks)
     {
         float p = Mth.lerp(partialTicks, this.prevWheelieCount, this.wheelieCount) / (float) MAX_WHEELIE_TICKS;

@@ -295,7 +295,7 @@ public class FluidMixerBlockEntity extends BlockEntitySynced implements Containe
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public boolean canMix()
     {
         ItemStack ingredient = this.getItem(SLOT_INGREDIENT);

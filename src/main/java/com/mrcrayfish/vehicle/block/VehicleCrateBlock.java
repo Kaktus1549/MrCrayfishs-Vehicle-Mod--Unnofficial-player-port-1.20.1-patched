@@ -151,7 +151,7 @@ public class VehicleCrateBlock extends RotatedEntityObjectBlock
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     private void spawnCrateOpeningParticles(ClientLevel world, BlockPos pos, BlockState state)
     {
         double y = 0.875;

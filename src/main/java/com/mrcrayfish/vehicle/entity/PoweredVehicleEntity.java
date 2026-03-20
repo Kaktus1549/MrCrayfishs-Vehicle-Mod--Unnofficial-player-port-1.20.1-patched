@@ -120,13 +120,13 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
     private SimpleContainer vehicleInventory;
     //protected AccelerationDirection prevAcceleration;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float prevRenderWheelAngle, renderWheelAngle;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float enginePitch;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float engineVolume;
 
     protected PoweredVehicleEntity(EntityType<?> entityType, Level worldIn)
@@ -657,7 +657,7 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         }
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public void onClientUpdate()
     {
         this.prevRenderWheelAngle = this.renderWheelAngle;
@@ -1324,7 +1324,7 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         return this.getProperties().getExtended(PoweredProperties.class);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected void updateEngineSound()
     {
         if(this.charging)
@@ -1337,19 +1337,19 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         this.engineVolume = this.getControllingPassenger() != null && this.isEnginePowered() ? 1.0F : 0.001F;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getEnginePitch()
     {
         return this.enginePitch;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getEngineVolume()
     {
         return this.engineVolume;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getRenderWheelAngle(float partialTicks)
     {
         return this.prevRenderWheelAngle + (this.renderWheelAngle - this.prevRenderWheelAngle) * partialTicks;

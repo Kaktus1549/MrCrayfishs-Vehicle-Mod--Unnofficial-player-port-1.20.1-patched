@@ -40,13 +40,13 @@ public abstract class HelicopterEntity extends PoweredVehicleEntity
     protected Vec3 velocity = Vec3.ZERO;
     protected float bladeSpeed;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float prevBladeRotation, bladeRotation;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float prevJoystickStrafe, joystickStrafe;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float prevJoystickForward, joystickForward;
 
     protected HelicopterEntity(EntityType<?> entityType, Level worldIn)
@@ -238,7 +238,7 @@ public abstract class HelicopterEntity extends PoweredVehicleEntity
     }
 
     @Override
-    
+    @OnlyIn(Dist.CLIENT)
     public void onClientUpdate()
     {
         super.onClientUpdate();
@@ -379,19 +379,19 @@ public abstract class HelicopterEntity extends PoweredVehicleEntity
         return this.getProperties().getExtended(HelicopterProperties.class);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getBladeRotation(float partialTicks)
     {
         return this.prevBladeRotation + (this.bladeRotation - this.prevBladeRotation) * partialTicks;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getSidewards(float partialTicks)
     {
         return this.prevJoystickStrafe + (this.joystickStrafe - this.prevJoystickStrafe) * partialTicks;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getForwards(float partialTicks)
     {
         return this.prevJoystickForward + (this.joystickForward - this.prevJoystickForward) * partialTicks;

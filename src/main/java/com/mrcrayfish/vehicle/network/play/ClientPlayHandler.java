@@ -27,7 +27,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 /**
  * Author: MrCrayfish
  */
-
+@OnlyIn(Dist.CLIENT)
 public class ClientPlayHandler
 {
     public static void handleSyncStorage(MessageSyncStorage message)

@@ -38,7 +38,7 @@ import java.util.Map;
  *
  * Author: MrCrayfish
  */
-
+@OnlyIn(Dist.CLIENT)
 public class ControllerHandler
 {
     public static final IKeyConflictContext VEHICLE_KEY_CONFLICT = new VehicleKeyConflict();

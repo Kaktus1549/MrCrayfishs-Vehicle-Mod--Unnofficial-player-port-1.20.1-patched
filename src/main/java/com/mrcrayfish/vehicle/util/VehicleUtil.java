@@ -20,7 +20,7 @@ import java.util.function.Function;
  */
 public class VehicleUtil
 {
-    
+    @OnlyIn(Dist.CLIENT)
     public static <T extends VehicleEntity> void registerVehicleRenderer(EntityRenderersEvent.RegisterRenderers event, EntityType<T> type, Function<EntityType<T>, AbstractVehicleRenderer<T>> rendererFunction)
     {
         AbstractVehicleRenderer<T> renderer = rendererFunction.apply(type);

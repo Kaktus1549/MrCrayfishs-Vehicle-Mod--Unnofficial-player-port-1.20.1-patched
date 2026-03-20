@@ -85,7 +85,7 @@ public class VehicleHelper
         MINECRAFT.submitAsync(() -> MINECRAFT.getSoundManager().play(SimpleSoundInstance.forUI(soundEvent, volume, pitch)));
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public static float getSteeringAngle(PoweredVehicleEntity vehicle)
     {
         float steeringAngle = vehicle.getSteeringAngle();
@@ -256,7 +256,7 @@ public class VehicleHelper
         return Mth.clamp(livingEntity.zza, -1.0F, 1.0F);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     private static float getTriggerInput(int button)
     {
         Controller controller = Controllable.getController();

@@ -78,9 +78,9 @@ public abstract class Action
         this.dirty = false;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public void beforeRender(PoseStack stack, VehicleEntity vehicle, float partialTicks) {}
 
-    
+    @OnlyIn(Dist.CLIENT)
     public void gatherTransforms(List<MatrixTransform> transforms) {}
 }

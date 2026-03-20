@@ -15,7 +15,7 @@ import net.minecraft.client.gui.GuiGraphics;
 /**
  * Author: MrCrayfish
  */
-
+@OnlyIn(Dist.CLIENT)
 public class CheckBox extends AbstractWidget
 {
     private static final ResourceLocation GUI = new ResourceLocation("vehicle:textures/gui/components.png");

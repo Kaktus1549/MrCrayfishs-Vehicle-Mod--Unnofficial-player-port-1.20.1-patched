@@ -111,19 +111,19 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
     protected final CosmeticTracker cosmeticTracker;
     protected final Map<EntityDataAccessor<?>, VehicleDataValue<?>> paramToDataValue = new Object2ObjectOpenHashMap<>();
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float prevBodyRotationPitch, bodyRotationPitch;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float prevBodyRotationYaw, bodyRotationYaw;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float prevBodyRotationRoll, bodyRotationRoll;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float passengerYawOffset;
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected float passengerPitchOffset;
 
     public VehicleEntity(EntityType<?> entityType, Level worldIn)
@@ -928,7 +928,7 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
 
     //TODO look into this and why its here. May have to send vanilla event to client
     //@Override
-    
+    @OnlyIn(Dist.CLIENT)
     public void animateHurt()
     {
         this.setTimeSinceHit(10);
@@ -1280,7 +1280,7 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
         return true;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected void clampYaw(Entity passenger)
     {
         int seatIndex = this.getSeatTracker().getSeatIndex(passenger.getUUID());
@@ -1295,7 +1295,7 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
     }
 
     @Override
-    
+    @OnlyIn(Dist.CLIENT)
     public void onPassengerTurned(@NotNull Entity passenger)
     {
         this.clampYaw(passenger);
@@ -1305,7 +1305,7 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
         }
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     private void updatePassengerOffsets(Entity passenger)
     {
         int seatIndex = this.getSeatTracker().getSeatIndex(passenger.getUUID());
@@ -1330,58 +1330,58 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
         this.bodyRotationYaw = this.getYRot();
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getBodyRotationPitch(float partialTicks)
     {
         return Mth.lerp(partialTicks, this.prevBodyRotationPitch, this.bodyRotationPitch);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getBodyRotationYaw(float partialTicks)
     {
         return Mth.rotLerp(partialTicks, this.prevBodyRotationYaw, this.bodyRotationYaw);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getBodyRotationRoll(float partialTicks)
     {
         return Mth.rotLerp(partialTicks, this.prevBodyRotationRoll, this.bodyRotationRoll);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getViewPitch(float partialTicks)
     {
         return this.getBodyRotationPitch(partialTicks);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getViewYaw(float partialTicks)
     {
         return this.getBodyRotationYaw(partialTicks);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getViewRoll(float partialTicks)
     {
         return this.getBodyRotationRoll(partialTicks);
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getPassengerYawOffset()
     {
         return this.passengerYawOffset;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getPassengerPitchOffset()
     {
         return this.passengerPitchOffset;
     }
 
-    
+    @OnlyIn(Dist.CLIENT)
     protected void updateWheelRotations() {}
 
-    
+    @OnlyIn(Dist.CLIENT)
     public float getWheelRotation(@Nullable Wheel wheel, float partialTicks)
     {
         return 0F;

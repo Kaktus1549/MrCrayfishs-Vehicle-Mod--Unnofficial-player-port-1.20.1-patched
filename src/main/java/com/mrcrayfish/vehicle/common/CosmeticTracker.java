@@ -139,7 +139,7 @@ public class CosmeticTracker
     }
 
     @Nullable
-    
+    @OnlyIn(Dist.CLIENT)
     public ComponentModel getSelectedModel(ResourceLocation cosmeticId)
     {
         Entry entry = this.selectedCosmetics.get(cosmeticId);
@@ -152,7 +152,7 @@ public class CosmeticTracker
     }
 
     @Nullable
-    
+    @OnlyIn(Dist.CLIENT)
     public Entry getSelectedEntry(ResourceLocation cosmeticId)
     {
         return this.selectedCosmetics.get(cosmeticId);

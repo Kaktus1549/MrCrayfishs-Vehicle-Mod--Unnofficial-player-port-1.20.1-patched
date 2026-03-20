@@ -475,7 +475,17 @@ public class ServerPlayHandler
                 0F
             );
 
-            Vec3 throwVec = player.getLookAngle().normalize().scale(0.35);
+            Vec3 lookVec = player.getLookAngle();
+
+            // keep mostly horizontal movement
+            Vec3 horizontal = new Vec3(lookVec.x, 0.0, lookVec.z);
+            if(horizontal.lengthSqr() > 0.0001)
+            {
+                horizontal = horizontal.normalize();
+            }
+
+            // small forward throw + tiny upward lift
+            Vec3 throwVec = horizontal.scale(0.18).add(0.0, 0.08, 0.0);
             entity.setDeltaMovement(throwVec);
 
             player.level().addFreshEntity(entity);

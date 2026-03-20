@@ -674,11 +674,22 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
             // Aply only if there is no driver
             if (!this.seatTracker.isDriverThere()) {
                 motion = motion.add(0, -0.0075, 0);
-
-                // Make the car fall
                 this.setDeltaMovement(motion);
                 this.move(MoverType.SELF, this.getDeltaMovement());
             }
+        }
+
+
+        // Drag when there is no driver
+        if (!this.seatTracker.isDriverThere()) {
+            motion = motion.scale(0.98);
+
+            // extra slowdown on ground
+            if (this.onGround()) {
+                motion = new Vec3(motion.x * 0.8, motion.y, motion.z * 0.8);
+            }
+            this.setDeltaMovement(motion);
+            this.move(MoverType.SELF, this.getDeltaMovement());
         }
 
         

@@ -213,4 +213,18 @@ public class SeatTracker
             this.playerSeatMap.put(uuid, seatIndex);
         }
     }
+
+    public boolean isDriverThere() {
+        // Check if any player in the seat map is currently driving the vehicle
+        // Seat with index 0 is typically the driver's seat, but this can be adjusted based on your vehicle's design
+        if(this.playerSeatMap.containsValue(0)) {
+            UUID driverUuid = this.playerSeatMap.inverse().get(0);
+            VehicleEntity vehicle = this.vehicleRef.get();
+            if(vehicle != null) {
+                return vehicle.getPassengers().stream().anyMatch(entity -> entity.getUUID().equals(driverUuid));
+            }
+        }
+
+        return false;
+    }
 }

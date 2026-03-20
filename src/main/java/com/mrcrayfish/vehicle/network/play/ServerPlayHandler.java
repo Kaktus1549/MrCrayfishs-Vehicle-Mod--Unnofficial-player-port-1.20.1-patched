@@ -434,7 +434,6 @@ public class ServerPlayHandler
         if(!player.isCrouching())
             return;
 
-        //Spawns the vehicle and plays the placing sound
         if(!HeldVehicleDataHandler.isHoldingVehicle(player))
             return;
 
@@ -445,29 +444,51 @@ public class ServerPlayHandler
 
         EntityType<?> entityType = optional.get();
         Entity entity = entityType.create(player.level());
-        if(entity instanceof VehicleEntity)
+        if(entity instanceof VehicleEntity vehicle)
         {
             entity.load(heldTag);
 
-            //Updates the player capability
+            // clear stored motion/state from NBT
+            entity.setDeltaMovement(Vec3.ZERO);
+            entity.setYRot(player.getYHeadRot());
+            entity.setXRot(0F);
+            entity.setYHeadRot(player.getYHeadRot());
+            entity.setYBodyRot(player.getYHeadRot());
+            entity.fallDistance = 0.0F;
+            entity.hasImpulse = true;
+
             HeldVehicleDataHandler.setHeldVehicle(player, new CompoundTag());
 
-            //Sets the positions and spawns the entity
             float rotation = (player.getYHeadRot() + 90F) % 360.0F;
-            Vec3 heldOffset = ((VehicleEntity) entity).getProperties().getHeldOffset().yRot((float) Math.toRadians(-player.getYHeadRot()));
+            Vec3 heldOffset = vehicle.getProperties().getHeldOffset()
+                .yRot((float) Math.toRadians(-player.getYHeadRot()));
 
-            //Gets the clicked vec if it was a right click block event
-            Vec3 lookVec = player.getLookAngle();
             double posX = player.getX();
             double posY = player.getY() + player.getEyeHeight();
             double posZ = player.getZ();
-            entity.absMoveTo(posX + heldOffset.x * 0.0625D, posY + heldOffset.y * 0.0625D, posZ + heldOffset.z * 0.0625D, rotation, 0F);
 
-            entity.setDeltaMovement(lookVec);
-            entity.fallDistance = 0.0F;
+            entity.absMoveTo(
+                posX + heldOffset.x * 0.0625D,
+                posY + heldOffset.y * 0.0625D,
+                posZ + heldOffset.z * 0.0625D,
+                rotation,
+                0F
+            );
+
+            Vec3 throwVec = player.getLookAngle().normalize().scale(0.35);
+            entity.setDeltaMovement(throwVec);
 
             player.level().addFreshEntity(entity);
-            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.ENTITY_VEHICLE_PICK_UP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.level().playSound(
+                null,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                ModSounds.ENTITY_VEHICLE_PICK_UP.get(),
+                SoundSource.PLAYERS,
+                1.0F,
+                1.0F
+            );
         }
     }
 

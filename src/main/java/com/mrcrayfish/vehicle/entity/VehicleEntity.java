@@ -666,6 +666,23 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
         this.tickLerp();
         this.onUpdateVehicle();
 
+        Vec3 motion = this.getDeltaMovement();
+
+
+        // Gravity
+        if (!this.onGround()) {
+            // Aply only if there is no driver
+            if (!this.seatTracker.isDriverThere()) {
+                motion = motion.add(0, -0.0075, 0);
+
+                // Make the car fall
+                this.setDeltaMovement(motion);
+                this.move(MoverType.SELF, this.getDeltaMovement());
+            }
+        }
+
+        
+
         if(this.level().isClientSide())
         {
             this.prevBodyRotationPitch = this.bodyRotationPitch;

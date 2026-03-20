@@ -184,7 +184,7 @@ public class FluidExtractorBlockEntity extends BlockEntityFluidHandlerSynced imp
         return this.currentRecipe != null && this.currentRecipe.ingredient().getItem() == stack.getItem() && this.tank.getFluidAmount() < this.tank.getCapacity() && (this.tank.isEmpty() || this.tank.getFluid().getFluid() == this.currentRecipe.result().fluid()) && (this.tank.getFluidAmount() + this.currentRecipe.result().amount()) <= this.tank.getCapacity();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public boolean canExtract()
     {
         ItemStack ingredient = this.getItem(SLOT_FLUID_SOURCE);
@@ -202,7 +202,7 @@ public class FluidExtractorBlockEntity extends BlockEntityFluidHandlerSynced imp
         return this.canFillWithFluid(ingredient) && this.remainingFuel >= 0;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public FluidExtractorRecipe getCurrentRecipe()
     {
         return currentRecipe;

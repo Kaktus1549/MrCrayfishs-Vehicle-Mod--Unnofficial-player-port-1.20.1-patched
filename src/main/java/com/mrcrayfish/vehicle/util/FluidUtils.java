@@ -39,13 +39,13 @@ public class FluidUtils
         return map;
     });
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static void clearCacheFluidColor()
     {
         CACHE_FLUID_COLOR.clear();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static int getAverageFluidColor(Fluid fluid)
     {
         ResourceLocation key = ForgeRegistries.FLUIDS.getKey(fluid);
@@ -103,7 +103,7 @@ public class FluidUtils
         return 0;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static void drawFluidTankInGUI(FluidStack fluid, double x, double y, double percent, int height)
     {
         if(fluid == null || fluid.isEmpty())
@@ -140,7 +140,7 @@ public class FluidUtils
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     private static void drawQuad(double x, double y, double width, double height, float minU, float minV, float maxU, float maxV, float red, float green, float blue)
     {
         //RenderSystem.disableTexture();
@@ -161,7 +161,7 @@ public class FluidUtils
         //RenderSystem.enableTexture();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static void drawFluidInWorld(FluidTank tank, Level world, BlockPos pos, PoseStack matrixStack, MultiBufferSource renderTypeBuffer, float x, float y, float z, float width, float height, float depth, int light, FluidSides sides)
     {
         if(tank.isEmpty())

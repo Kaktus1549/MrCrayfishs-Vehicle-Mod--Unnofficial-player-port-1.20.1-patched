@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
 /**
  * Author: MrCrayfish
  */
-@OnlyIn(Dist.CLIENT)
+
 public class MovingHornSound extends AbstractTickableSoundInstance
 {
     private final WeakReference<Player> playerRef;

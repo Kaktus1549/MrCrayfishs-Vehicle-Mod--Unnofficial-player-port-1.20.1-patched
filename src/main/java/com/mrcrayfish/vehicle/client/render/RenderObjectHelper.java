@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * @author Mo0dss
  */
-@OnlyIn(Dist.CLIENT)
+
 public class RenderObjectHelper
 {
     protected static final RandomSource RANDOM = new XoroshiroRandomSource(42L);

@@ -100,7 +100,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         return 31 * i + (this.m33 != 0.0F ? Float.floatToIntBits(this.m33) : 0);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     private static int bufferIndex(int p_226594_0_, int p_226594_1_) {
         return p_226594_1_ * 4 + p_226594_0_;
     }
@@ -143,7 +143,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         return stringbuilder.toString();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void store(FloatBuffer p_195879_1_) {
         p_195879_1_.put(bufferIndex(0, 0), this.m00);
         p_195879_1_.put(bufferIndex(0, 1), this.m01);
@@ -163,7 +163,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         p_195879_1_.put(bufferIndex(3, 3), this.m33);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void setIdentity() {
         this.m00 = 1.0F;
         this.m01 = 0.0F;
@@ -183,7 +183,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         this.m33 = 1.0F;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public float adjugateAndDet() {
         float f = this.m00 * this.m11 - this.m01 * this.m10;
         float f1 = this.m00 * this.m12 - this.m02 * this.m10;
@@ -232,7 +232,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         return f * f11 - f1 * f10 + f2 * f9 + f3 * f8 - f4 * f7 + f5 * f6;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public org.joml.Matrix4f transpose() {
         float f = this.m10;
         this.m10 = this.m01;
@@ -255,7 +255,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public org.joml.Matrix4f invert() {
         float f = this.adjugateAndDet();
         if (Math.abs(f) > 1.0E-6F) {
@@ -266,7 +266,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void multiply(Matrix4f p_226595_1_) {
         float f = this.m00 * p_226595_1_.m00 + this.m01 * p_226595_1_.m10 + this.m02 * p_226595_1_.m20 + this.m03 * p_226595_1_.m30;
         float f1 = this.m00 * p_226595_1_.m01 + this.m01 * p_226595_1_.m11 + this.m02 * p_226595_1_.m21 + this.m03 * p_226595_1_.m31;
@@ -302,7 +302,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         this.m33 = f15;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void multiply(org.joml.Matrix4f p_226595_1_) {
         float f = this.m00 * p_226595_1_.m00() + this.m01 * p_226595_1_.m10() + this.m02 * p_226595_1_.m20() + this.m03 * p_226595_1_.m30();
         float f1 = this.m00 * p_226595_1_.m01() + this.m01 * p_226595_1_.m11() + this.m02 * p_226595_1_.m21() + this.m03 * p_226595_1_.m31();
@@ -338,12 +338,12 @@ public class Matrix4f extends org.joml.Matrix4f {
         this.m33 = f15;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void multiply(Quaternion p_226596_1_) {
         this.multiply(new Matrix4f(p_226596_1_));
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void multiply(float p_226592_1_) {
         this.m00 *= p_226592_1_;
         this.m01 *= p_226592_1_;
@@ -363,7 +363,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         this.m33 *= p_226592_1_;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static Matrix4f perspective(double p_195876_0_, float p_195876_2_, float p_195876_3_, float p_195876_4_) {
         float f = (float)(1.0D / Math.tan(p_195876_0_ * (double)((float)Math.PI / 180F) / 2.0D));
         Matrix4f matrix4f = new Matrix4f();
@@ -375,7 +375,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         return matrix4f;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static Matrix4f orthographic(float p_195877_0_, float p_195877_1_, float p_195877_2_, float p_195877_3_) {
         Matrix4f matrix4f = new Matrix4f();
         matrix4f.m00 = 2.0F / p_195877_0_;
@@ -389,19 +389,19 @@ public class Matrix4f extends org.joml.Matrix4f {
         return matrix4f;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void translate(Vector3f p_226597_1_) {
         this.m03 += p_226597_1_.x();
         this.m13 += p_226597_1_.y();
         this.m23 += p_226597_1_.z();
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public Matrix4f copy() {
         return new Matrix4f(this);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static Matrix4f createScaleMatrix(float p_226593_0_, float p_226593_1_, float p_226593_2_) {
         Matrix4f matrix4f = new Matrix4f();
         matrix4f.m00 = p_226593_0_;
@@ -411,7 +411,7 @@ public class Matrix4f extends org.joml.Matrix4f {
         return matrix4f;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public static Matrix4f createTranslateMatrix(float p_226599_0_, float p_226599_1_, float p_226599_2_) {
         Matrix4f matrix4f = new Matrix4f();
         matrix4f.m00 = 1.0F;

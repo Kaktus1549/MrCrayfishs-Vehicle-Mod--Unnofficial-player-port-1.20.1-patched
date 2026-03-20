@@ -50,7 +50,7 @@ public class VehicleCrateBlockEntity extends BlockEntitySynced
     private int timer;
     private UUID opener;
 
-    @OnlyIn(Dist.CLIENT)
+    
     private Entity entity;
 
     public VehicleCrateBlockEntity(BlockPos pos, BlockState state)
@@ -99,7 +99,7 @@ public class VehicleCrateBlockEntity extends BlockEntitySynced
         return timer;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     @SuppressWarnings("unchecked")
     public <E extends Entity> E getEntity()
     {

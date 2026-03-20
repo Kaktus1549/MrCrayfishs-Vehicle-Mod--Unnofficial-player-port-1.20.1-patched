@@ -62,7 +62,7 @@ public final class Vector3f extends org.joml.Vector3f {
         return this.z;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public org.joml.Vector3f mul(float p_195898_1_) {
         this.x *= p_195898_1_;
         this.y *= p_195898_1_;
@@ -70,7 +70,7 @@ public final class Vector3f extends org.joml.Vector3f {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public org.joml.Vector3f mul(float p_229192_1_, float p_229192_2_, float p_229192_3_) {
         this.x *= p_229192_1_;
         this.y *= p_229192_2_;
@@ -78,7 +78,7 @@ public final class Vector3f extends org.joml.Vector3f {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void clamp(float p_195901_1_, float p_195901_2_) {
         this.x = Math.clamp(this.x, p_195901_1_, p_195901_2_);
         this.y = Math.clamp(this.y, p_195901_1_, p_195901_2_);
@@ -92,7 +92,7 @@ public final class Vector3f extends org.joml.Vector3f {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public org.joml.Vector3f add(float p_195904_1_, float p_195904_2_, float p_195904_3_) {
         this.x += p_195904_1_;
         this.y += p_195904_2_;
@@ -100,26 +100,26 @@ public final class Vector3f extends org.joml.Vector3f {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void add(Vector3f p_229189_1_) {
         this.x += p_229189_1_.x;
         this.y += p_229189_1_.y;
         this.z += p_229189_1_.z;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void sub(Vector3f p_195897_1_) {
         this.x -= p_195897_1_.x;
         this.y -= p_195897_1_.y;
         this.z -= p_195897_1_.z;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public float dot(Vector3f p_195903_1_) {
         return this.x * p_195903_1_.x + this.y * p_195903_1_.y + this.z * p_195903_1_.z;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public org.joml.Vector3f normalize() {
         float f = this.x * this.x + this.y * this.y + this.z * this.z;
         if ((double)f < 1.0E-5D) {
@@ -133,7 +133,7 @@ public final class Vector3f extends org.joml.Vector3f {
         return this;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void cross(Vector3f p_195896_1_) {
         float f = this.x;
         float f1 = this.y;
@@ -146,7 +146,7 @@ public final class Vector3f extends org.joml.Vector3f {
         this.z = f * f4 - f1 * f3;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void transform(Matrix3f p_229188_1_) {
         float f = this.x;
         float f1 = this.y;
@@ -165,7 +165,7 @@ public final class Vector3f extends org.joml.Vector3f {
         this.set(quaternion.x(), quaternion.y(), quaternion.z());
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void lerp(Vector3f p_229190_1_, float p_229190_2_) {
         float f = 1.0F - p_229190_2_;
         this.x = this.x * f + p_229190_1_.x * p_229190_2_;
@@ -173,22 +173,22 @@ public final class Vector3f extends org.joml.Vector3f {
         this.z = this.z * f + p_229190_1_.z * p_229190_2_;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public Quaternionf rotation(float p_229193_1_) {
         return new Quaternion(this, p_229193_1_, false);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public Quaternionf rotationDegrees(float p_229187_1_) {
         return new Quaternion(this, p_229187_1_, true);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public Vector3f copy() {
         return new Vector3f(this.x, this.y, this.z);
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public void map(Float2FloatFunction p_229191_1_) {
         this.x = p_229191_1_.get(this.x);
         this.y = p_229191_1_.get(this.y);

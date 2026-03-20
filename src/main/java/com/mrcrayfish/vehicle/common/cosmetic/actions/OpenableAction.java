@@ -129,7 +129,7 @@ public class OpenableAction extends Action
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    
     public void beforeRender(PoseStack matrixStack, VehicleEntity vehicle, float partialTicks)
     {
         if(this.animationTick != 0 || this.prevAnimationTick != 0)
@@ -142,7 +142,7 @@ public class OpenableAction extends Action
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    
     public void gatherTransforms(List<MatrixTransform> transforms)
     {
         if(this.prevAnimationTick != 0)

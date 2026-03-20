@@ -51,19 +51,19 @@ public abstract class PlaneEntity extends PoweredVehicleEntity
     protected float flapAngle;
     protected float elevatorAngle;
 
-    @OnlyIn(Dist.CLIENT)
+    
     protected float propellerRotation;
-    @OnlyIn(Dist.CLIENT)
+    
     protected float prevPropellerRotation;
-    @OnlyIn(Dist.CLIENT)
+    
     protected float wheelRotationSpeed;
-    @OnlyIn(Dist.CLIENT)
+    
     protected float wheelRotation;
-    @OnlyIn(Dist.CLIENT)
+    
     protected float prevWheelRotation;
-    @OnlyIn(Dist.CLIENT)
+    
     protected float prevFlapAngle;
-    @OnlyIn(Dist.CLIENT)
+    
     protected float prevElevatorAngle;
 
     protected PlaneEntity(EntityType<?> entityType, Level worldIn)
@@ -487,26 +487,26 @@ public abstract class PlaneEntity extends PoweredVehicleEntity
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    
     protected void updateEngineSound()
     {
         this.enginePitch = this.getMinEnginePitch() + (this.getMaxEnginePitch() - this.getMinEnginePitch()) * Mth.clamp(this.propellerSpeed / 200F, 0.0F, 2.0F);
         this.engineVolume = this.getControllingPassenger() != null && this.isEnginePowered() ? 0.2F + 0.8F * (this.propellerSpeed / 80F) : 0.001F;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public float getPropellerRotation(float partialTicks)
     {
         return this.prevPropellerRotation + (this.propellerRotation - this.prevPropellerRotation) * partialTicks;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public float getFlapAngle(float partialTicks)
     {
         return this.prevFlapAngle + (this.flapAngle - this.prevFlapAngle) * partialTicks;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    
     public float getElevatorAngle(float partialTicks)
     {
         return this.prevElevatorAngle + (this.elevatorAngle - this.prevElevatorAngle) * partialTicks;
@@ -523,7 +523,7 @@ public abstract class PlaneEntity extends PoweredVehicleEntity
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
+    
     protected void updateWheelRotations()
     {
         VehicleProperties properties = this.getProperties();

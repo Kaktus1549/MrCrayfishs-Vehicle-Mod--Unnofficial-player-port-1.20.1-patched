@@ -29,6 +29,7 @@ import net.minecraft.client.gui.GuiGraphics;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 
 /**
  * Author: MrCrayfish
@@ -254,7 +255,8 @@ public class EditVehicleScreen extends AbstractContainerScreen<EditVehicleContai
 
                     graphics.renderTooltip(
                             minecraft.font, // 1. Pass the Font object
-                            (Component) Collections.singletonList(Component.translatable("vehicle.tooltip.engine")), // 2. Pass List<Component>
+                            Collections.singletonList(Component.translatable("vehicle.tooltip.engine")), // 2. Pass List<Component>
+                            Optional.empty(),
                             mouseX,
                             mouseY
                     );
@@ -265,10 +267,11 @@ public class EditVehicleScreen extends AbstractContainerScreen<EditVehicleContai
                 {
 
                    graphics.renderTooltip( minecraft.font, // 1. Pass the Font object
-                           (Component) Arrays.asList(
+                           Arrays.asList(
                                    Component.translatable("vehicle.tooltip.engine"),
                                    Component.translatable("vehicle.tooltip.not_applicable").withStyle(ChatFormatting.GRAY)
                            ), // 2. Pass List<Component>
+                            Optional.empty(),
                             mouseX,
                             mouseY);
                     //this.renderTooltip(matrices, Lists.transform(Arrays.asList(Component.translatable("vehicle.tooltip.engine"),  Component.translatable("vehicle.tooltip.not_applicable").withStyle(ChatFormatting.GRAY)), Component::getVisualOrderText), mouseX, mouseY);
@@ -284,7 +287,8 @@ public class EditVehicleScreen extends AbstractContainerScreen<EditVehicleContai
                 {
                     graphics.renderTooltip(
                             minecraft.font, // 1. Pass the Font object
-                            (Component) Collections.singletonList(Component.translatable("vehicle.tooltip.wheels")), // 2. Pass List<Component>
+                            Collections.singletonList(Component.translatable("vehicle.tooltip.wheels")), // 2. Pass List<Component>
+                            Optional.empty(),
                             mouseX,
                             mouseY
                     );
@@ -295,10 +299,11 @@ public class EditVehicleScreen extends AbstractContainerScreen<EditVehicleContai
 
                     graphics.renderTooltip(
                             minecraft.font, // 1. Pass the Font object
-                            (Component) Arrays.asList(
+                            Arrays.asList(
                                     Component.translatable("vehicle.tooltip.wheels"),
                                     Component.translatable("vehicle.tooltip.not_applicable").withStyle(ChatFormatting.GRAY)
                             ), // 2. Pass List<Component>
+                            Optional.empty(),
                             mouseX,
                             mouseY
                     );

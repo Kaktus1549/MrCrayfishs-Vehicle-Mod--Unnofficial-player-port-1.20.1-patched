@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Author: MrCrayfish
@@ -67,13 +68,13 @@ public class FluidMixerScreen extends AbstractContainerScreen<FluidMixerContaine
                                     .withStyle(ChatFormatting.GRAY) // Modern styling
                     );
                     // Explicit GuiGraphics renderTooltip call
-                    graphics.renderTooltip(minecraft.font, (Component) tooltipText, mouseX, mouseY);
+                    graphics.renderTooltip(minecraft.font, tooltipText, Optional.empty(), mouseX, mouseY);
                     //this.renderTooltip(matrices, Lists.transform(Arrays.asList(Component.literal(stack.getDisplayName().getString()), Component.literal(ChatFormatting.GRAY.toString() + this.fluidMixerTileEntity.getBlazeLevel() + "/" + this.fluidMixerTileEntity.getBlazeTank().getCapacity() + " mB")), Component::getVisualOrderText), mouseX, mouseY);
                 }
                 else
                 {
 
-                    graphics.renderTooltip(minecraft.font, (Component) Collections.singletonList(Component.literal("No Fluid")), mouseX, mouseY);
+                    graphics.renderTooltip(minecraft.font, Component.literal("No Fluid"), mouseX, mouseY);
                     //this.renderTooltip(matrices, Lists.transform(Collections.singletonList(Component.literal("No Fluid")), Component::getVisualOrderText), mouseX, mouseY);
                 }
             }
@@ -91,13 +92,14 @@ public class FluidMixerScreen extends AbstractContainerScreen<FluidMixerContaine
                             Component.literal(this.fluidMixerTileEntity.getEnderSapLevel() + "/" + this.fluidMixerTileEntity.getEnderSapTank().getCapacity() + " mB")
                                     .withStyle(ChatFormatting.GRAY)
                     );
-                    graphics.renderTooltip(minecraft.font, (Component) tooltipText, mouseX, mouseY);
+                    graphics.renderTooltip(minecraft.font, tooltipText, Optional.empty(), mouseX, mouseY);
 
                     //this.renderTooltip(matrices, Lists.transform(Arrays.asList(Component.literal(stack.getDisplayName().getString()), Component.literal(ChatFormatting.GRAY.toString() + this.fluidMixerTileEntity.getEnderSapLevel() + "/" + this.fluidMixerTileEntity.getEnderSapTank().getCapacity() + " mB")), Component::getVisualOrderText), mouseX, mouseY);
                 }
                 else
                 {
-                    graphics.renderTooltip(minecraft.font, (Component) Collections.singletonList(Component.literal("No Fluid")), mouseX, mouseY);
+                    
+                    graphics.renderTooltip(minecraft.font, Component.literal("No Fluid"), mouseX, mouseY);
                     //this.renderTooltip(matrices, Lists.transform(Collections.singletonList(Component.literal("No Fluid")), Component::getVisualOrderText), mouseX, mouseY);
                 }
             }
@@ -115,12 +117,12 @@ public class FluidMixerScreen extends AbstractContainerScreen<FluidMixerContaine
                             Component.literal(this.fluidMixerTileEntity.getFueliumLevel() + "/" + this.fluidMixerTileEntity.getFueliumTank().getCapacity() + " mB")
                                     .withStyle(ChatFormatting.GRAY)
                     );
-                    graphics.renderTooltip(minecraft.font, (Component) tooltipText, mouseX, mouseY);
+                    graphics.renderTooltip(minecraft.font, tooltipText, Optional.empty(), mouseX, mouseY);
                     // this.renderTooltip(matrices, Lists.transform(Arrays.asList(Component.literal(stack.getDisplayName().getString()), Component.literal(ChatFormatting.GRAY.toString() + this.fluidMixerTileEntity.getFueliumLevel() + "/" + this.fluidMixerTileEntity.getFueliumTank().getCapacity() + " mB")), Component::getVisualOrderText), mouseX, mouseY);
                 }
                 else
                 {
-                    graphics.renderTooltip(minecraft.font, (Component) Collections.singletonList(Component.literal("No Fluid")), mouseX, mouseY);
+                    graphics.renderTooltip(minecraft.font, Component.literal("No Fluid"), mouseX, mouseY);
                     //this.renderTooltip(matrices, Lists.transform(Collections.singletonList(Component.literal("No Fluid")), Component::getVisualOrderText), mouseX, mouseY);
                 }
             }

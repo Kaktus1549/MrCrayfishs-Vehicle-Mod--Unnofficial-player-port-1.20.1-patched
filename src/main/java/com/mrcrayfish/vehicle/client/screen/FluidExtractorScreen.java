@@ -23,6 +23,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Author: MrCrayfish
@@ -64,13 +65,13 @@ public class FluidExtractorScreen extends AbstractContainerScreen<FluidExtractor
                             Component.literal(this.fluidExtractorTileEntity.getFluidLevel() + "/" + this.fluidExtractorTileEntity.getCapacity() + " mB")
                                     .withStyle(ChatFormatting.GRAY)
                     );
-                    graphics.renderTooltip(Minecraft.getInstance().font, (Component) tooltipText, mouseX, mouseY);
+                    graphics.renderTooltip(minecraft.font, tooltipText, Optional.empty(), mouseX, mouseY);
 
                     //this.renderTooltip(matrices, Lists.transform(Arrays.asList(Component.literal(stack.getDisplayName().getString()), Component.literal(ChatFormatting.GRAY.toString() + this.fluidExtractorTileEntity.getFluidLevel() + "/" + this.fluidExtractorTileEntity.getCapacity() + " mB")), Component::getVisualOrderText), mouseX, mouseY);
                 }
                 else
                 {
-                    graphics.renderTooltip(Minecraft.getInstance().font, (Component) Collections.singletonList(Component.literal("No Fluid")), mouseX, mouseY);
+                    graphics.renderTooltip(minecraft.font, Component.literal("No Fluid"), mouseX, mouseY);
                     //this.renderTooltip(graphics, Lists.transform(Collections.singletonList(Component.literal("No Fluid")), Component::getVisualOrderText), mouseX, mouseY);
                 }
             }

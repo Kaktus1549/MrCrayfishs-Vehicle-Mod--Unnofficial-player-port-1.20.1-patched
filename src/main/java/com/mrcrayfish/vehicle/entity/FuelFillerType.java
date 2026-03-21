@@ -7,6 +7,9 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.api.distmarker.Dist;
+
 import java.util.function.Supplier;
 
 /**
@@ -48,15 +51,19 @@ public enum FuelFillerType
         return this.openModel;
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void playOpenSound()
     {
-        VehicleHelper.playSound(this.openSound, this.openVolume, this.openPitch);
+        if(FMLEnvironment.dist == Dist.CLIENT)
+        {
+            VehicleHelper.playSound(this.openSound, this.openVolume, this.openPitch);
+        }
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void playCloseSound()
     {
-        VehicleHelper.playSound(this.closeSound, this.closeVolume, this.closePitch);
+        if(FMLEnvironment.dist == Dist.CLIENT)
+        {
+            VehicleHelper.playSound(this.closeSound, this.closeVolume, this.closePitch);
+        }
     }
 }

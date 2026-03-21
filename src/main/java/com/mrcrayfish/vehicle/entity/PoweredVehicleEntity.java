@@ -372,7 +372,7 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         double distance = adjustedFuelFillerPos.distanceTo(localHit);
 
         // Reduce from 48 to 8 units (~0.5 blocks instead of 3 blocks)
-        return distance < 8.0;
+        return distance < 48.0;
     }
 
 
@@ -456,15 +456,15 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
         // SERVER-SIDE ONLY: Check for fuel port interaction FIRST
         // Only show fuel port if fuel system is active and player is not in creative
         boolean fuelSystemActive = Config.SERVER.fuelEnabled.get() && this.requiresEnergy();
+        ItemStack heldItem = player.getItemInHand(hand);
+        boolean hasGasPump = SyncedEntityData.instance().get(player, ModDataKeys.GAS_PUMP).isPresent();
+        boolean hasJerryCan = heldItem.getItem() instanceof JerryCanItem;
 
 
-        if(fuelSystemActive && this.shouldRenderFuelPort() && this.isFuelPortClicked(hitVec))
+        if(fuelSystemActive && this.shouldRenderFuelPort() && this.isFuelPortClicked(hitVec) && (hasGasPump || hasJerryCan))
         {
-            ItemStack heldItem = player.getItemInHand(hand);
 
             // Check if player has an active gas pump OR is holding jerry can
-            boolean hasGasPump = SyncedEntityData.instance().get(player, ModDataKeys.GAS_PUMP).isPresent();
-            boolean hasJerryCan = heldItem.getItem() instanceof JerryCanItem;
 
             if(hasJerryCan || hasGasPump)
             {
@@ -474,8 +474,8 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
             }
 
             // Clicked fuel port but no valid fuel source
-            CommonUtils.sendInfoMessage(player, "vehicle.status.need_fuel_source");
-            return InteractionResult.FAIL;
+            // CommonUtils.sendInfoMessage(player, "vehicle.status.need_fuel_source");
+            // return InteractionResult.FAIL;
         }
 
         // Fall back to cosmetic interactions and mounting

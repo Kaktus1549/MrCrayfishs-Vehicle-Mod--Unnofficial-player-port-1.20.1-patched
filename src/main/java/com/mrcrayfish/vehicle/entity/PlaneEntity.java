@@ -148,6 +148,10 @@ public abstract class PlaneEntity extends PoweredVehicleEntity
 
         // Add gravity but is countered based on the lift force
         this.velocity = this.velocity.add(0, -0.08 * (1.0F - liftForce), 0);
+        if(this.getControllingPassenger() == null && this.onGround())
+        {
+            this.velocity = new Vec3(this.velocity.x * 0.8D, 0.0D, this.velocity.z * 0.8D);
+        }
 
         // Clamps the speed based on the global speed limit
         this.velocity = CommonUtils.clampSpeed(this.velocity.scale(20)).scale(0.05);
@@ -313,9 +317,28 @@ public abstract class PlaneEntity extends PoweredVehicleEntity
         }
         else
         {
-            this.bodyRotationPitch *= 0.75F;
-            this.bodyRotationRoll *= 0.75F;
+            if(this.getControllingPassenger() == null)
+            {
+                this.bodyRotationPitch += (0F - this.bodyRotationPitch) * 0.35F;
+                this.bodyRotationRoll += (0F - this.bodyRotationRoll) * 0.35F;
+
+                if(Math.abs(this.bodyRotationPitch) < 0.5F)
+                {
+                    this.bodyRotationPitch = 0F;
+                }
+
+                if(Math.abs(this.bodyRotationRoll) < 0.5F)
+                {
+                    this.bodyRotationRoll = 0F;
+                }
+            }
+            else
+            {
+                this.bodyRotationPitch *= 0.75F;
+                this.bodyRotationRoll *= 0.75F;
+            }
         }
+
         this.bodyRotationYaw = this.getYRot();
     }
 

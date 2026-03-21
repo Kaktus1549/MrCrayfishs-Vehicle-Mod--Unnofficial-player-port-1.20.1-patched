@@ -667,29 +667,30 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
         this.onUpdateVehicle();
 
         Vec3 motion = this.getDeltaMovement();
+        
 
 
-        // Gravity
-        if (!this.onGround()) {
-            // Aply only if there is no driver
-            if (!this.seatTracker.isDriverThere()) {
-                motion = motion.add(0, -0.0075, 0);
-                this.setDeltaMovement(motion);
-                this.move(MoverType.SELF, this.getDeltaMovement());
+        if (!this.seatTracker.isDriverThere() && !(this instanceof PlaneEntity)) {
+            // gravity while airborne
+            if (!this.onGround()) {
+                motion = motion.add(0.0D, -0.0075D, 0.0D);
             }
-        }
 
+            // air drag / general drag
+            motion = motion.scale(0.98D);
 
-        // Drag when there is no driver
-        if (!this.seatTracker.isDriverThere()) {
-            motion = motion.scale(0.98);
-
-            // extra slowdown on ground
+            // extra ground friction, but only horizontal
             if (this.onGround()) {
-                motion = new Vec3(motion.x * 0.8, motion.y, motion.z * 0.8);
+                motion = new Vec3(motion.x * 0.8D, motion.y, motion.z * 0.8D);
+
+                // prevent tiny downward force from constantly pushing nose into ground
+                if (motion.y < 0.0D) {
+                    motion = new Vec3(motion.x, 0.0D, motion.z);
+                }
             }
+
             this.setDeltaMovement(motion);
-            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.move(MoverType.SELF, motion);
         }
 
         

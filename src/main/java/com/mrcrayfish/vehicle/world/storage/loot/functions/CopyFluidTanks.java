@@ -3,6 +3,7 @@ package com.mrcrayfish.vehicle.world.storage.loot.functions;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mrcrayfish.vehicle.block.entity.IFluidTankWriter;
+import com.mrcrayfish.vehicle.init.ModLootFunctions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -13,8 +14,8 @@ import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.capability.FluidHandlerBlockEntity;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
@@ -39,13 +40,13 @@ public class CopyFluidTanks extends LootItemConditionalFunction
             if(tileEntity != null)
             {
                 CompoundTag tileEntityTag = new CompoundTag();
+
                 if(tileEntity instanceof FluidHandlerBlockEntity)
                 {
                     LazyOptional<IFluidHandler> handler = tileEntity.getCapability(ForgeCapabilities.FLUID_HANDLER);
                     handler.ifPresent(h ->
                     {
-                        FluidTank tank = (FluidTank) h;
-                        if(!tank.isEmpty())
+                        if(h instanceof FluidTank tank && !tank.isEmpty())
                         {
                             tank.writeToNBT(tileEntityTag);
                         }
@@ -77,21 +78,22 @@ public class CopyFluidTanks extends LootItemConditionalFunction
     @Override
     public LootItemFunctionType getType()
     {
-        //return ModLootFunctions.COPY_FLUID_TANKS;
-        //TODO fix
-        return null;
+        return ModLootFunctions.COPY_FLUID_TANKS.get();
     }
 
-    public static CopyFluidTanks.Builder copyFluidTanks()
+    public static Builder copyFluidTanks()
     {
-        return new CopyFluidTanks.Builder();
+        return new Builder();
     }
 
-    public static class Builder extends LootItemConditionalFunction.Builder<CopyFluidTanks.Builder>
+    public static class Builder extends LootItemConditionalFunction.Builder<Builder>
     {
-        private Builder() {}
+        private Builder()
+        {
+        }
 
-        protected CopyFluidTanks.Builder getThis()
+        @Override
+        protected Builder getThis()
         {
             return this;
         }
@@ -103,8 +105,8 @@ public class CopyFluidTanks extends LootItemConditionalFunction
         }
     }
 
-    public static class Serializer extends LootItemConditionalFunction.Serializer<CopyFluidTanks> {
-
+    public static class Serializer extends LootItemConditionalFunction.Serializer<CopyFluidTanks>
+    {
         @Override
         public CopyFluidTanks deserialize(JsonObject object, JsonDeserializationContext ctx, LootItemCondition[] conditions)
         {

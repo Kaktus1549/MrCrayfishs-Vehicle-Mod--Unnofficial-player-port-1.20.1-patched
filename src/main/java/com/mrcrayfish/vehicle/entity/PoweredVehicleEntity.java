@@ -1221,8 +1221,8 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
 //                    int y = Mth.floor(this.getY() + wheelY - 0.2D);
 //                    int z = Mth.floor(this.getZ() + wheelZ);
 //                    BlockPos pos = new BlockPos(x, y, z);
-//                    BlockState state = this.level.getBlockState(pos);
-//                    if(!state.getCollisionShape(this.level, pos).isEmpty())
+//                    BlockState state = this.level().getBlockState(pos);
+//                    if(!state.getCollisionShape(this.level(), pos).isEmpty())
 //                    {
 //                        wheelsOnGround = true;
 //                        return;

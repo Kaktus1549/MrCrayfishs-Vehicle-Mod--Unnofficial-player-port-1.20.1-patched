@@ -36,8 +36,7 @@ public class FluidMixerBlock extends RotatedEntityObjectBlock
     public FluidMixerBlock()
     {
         super(Properties.of()
-                .strength(1.0F)
-                .requiresCorrectToolForDrops());
+                .strength(1.0F));
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(DIRECTION, Direction.NORTH)
                 .setValue(ENABLED, false));

@@ -60,7 +60,7 @@ public class Camera {
 
     public void setup(BlockGetter p_90576_, Entity p_90577_, boolean p_90578_, boolean p_90579_, float p_90580_) {
         this.initialized = true;
-        this.level = p_90576_;
+        this.level() = p_90576_;
         this.entity = p_90577_;
         this.detached = p_90578_;
         this.setRotation(p_90577_.getViewYRot(p_90580_), p_90577_.getViewXRot(p_90580_));
@@ -97,7 +97,7 @@ public class Camera {
             f2 *= 0.1F;
             Vec3 vec3 = this.position.add((double)f, (double)f1, (double)f2);
             Vec3 vec31 = new Vec3(this.position.x - (double)this.forwards.x() * p_90567_ + (double)f, this.position.y - (double)this.forwards.y() * p_90567_ + (double)f1, this.position.z - (double)this.forwards.z() * p_90567_ + (double)f2);
-            HitResult hitresult = this.level.clip(new ClipContext(vec3, vec31, Block.VISUAL, Fluid.NONE, this.entity));
+            HitResult hitresult = this.level().clip(new ClipContext(vec3, vec31, Block.VISUAL, Fluid.NONE, this.entity));
             if (hitresult.getType() != Type.MISS) {
                 double d0 = hitresult.getLocation().distanceTo(this.position);
                 if (d0 < p_90567_) {
@@ -181,8 +181,8 @@ public class Camera {
         if (!this.initialized) {
             return FogType.NONE;
         } else {
-            FluidState fluidstate = this.level.getFluidState(this.blockPosition);
-            if (fluidstate.is(FluidTags.WATER) && this.position.y < (double)((float)this.blockPosition.getY() + fluidstate.getHeight(this.level, this.blockPosition))) {
+            FluidState fluidstate = this.level().getFluidState(this.blockPosition);
+            if (fluidstate.is(FluidTags.WATER) && this.position.y < (double)((float)this.blockPosition.getY() + fluidstate.getHeight(this.level(), this.blockPosition))) {
                 return FogType.WATER;
             } else {
                 NearPlane camera$nearplane = this.getNearPlane();
@@ -192,13 +192,13 @@ public class Camera {
                     Vec3 vec3 = (Vec3)var3.next();
                     Vec3 vec31 = this.position.add(vec3);
                     BlockPos blockpos = BlockPos.containing(vec31);
-                    FluidState fluidstate1 = this.level.getFluidState(blockpos);
+                    FluidState fluidstate1 = this.level().getFluidState(blockpos);
                     if (fluidstate1.is(FluidTags.LAVA)) {
-                        if (vec31.y <= (double)(fluidstate1.getHeight(this.level, blockpos) + (float)blockpos.getY())) {
+                        if (vec31.y <= (double)(fluidstate1.getHeight(this.level(), blockpos) + (float)blockpos.getY())) {
                             return FogType.LAVA;
                         }
                     } else {
-                        BlockState blockstate = this.level.getBlockState(blockpos);
+                        BlockState blockstate = this.level().getBlockState(blockpos);
                         if (blockstate.is(Blocks.POWDER_SNOW)) {
                             return FogType.POWDER_SNOW;
                         }
@@ -223,7 +223,7 @@ public class Camera {
     }
 
     public void reset() {
-        this.level = null;
+        this.level() = null;
         this.entity = null;
         this.initialized = false;
     }
@@ -234,7 +234,7 @@ public class Camera {
     }
 
     public BlockState getBlockAtCamera() {
-        return !this.initialized ? Blocks.AIR.defaultBlockState() : this.level.getBlockState(this.blockPosition).getStateAtViewpoint(this.level, this.blockPosition, this.position);
+        return !this.initialized ? Blocks.AIR.defaultBlockState() : this.level().getBlockState(this.blockPosition).getStateAtViewpoint(this.level(), this.blockPosition, this.position);
     }
 
     @OnlyIn(Dist.CLIENT)

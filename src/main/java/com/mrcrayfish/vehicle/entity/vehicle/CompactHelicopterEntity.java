@@ -58,17 +58,17 @@ public class CompactHelicopterEntity extends HelicopterEntity
                 Vec3 loc = result.getLocation();
                 double distanceScale = (downDistance - start.distanceTo(loc)) / downDistance;
                 BlockState state = this.level().getBlockState(result.getBlockPos());
-//                if(state.is(BlockTags.DIRT) || state.is(Tags.Blocks.GRAVEL) || state.is(Tags.Blocks.SAND))
-//                {
-////                    this.level.addParticle(ModParticleTypes.DUST.get(), loc.x, loc.y, loc.z, randX * bladeScale * distanceScale, 0.02, randZ * bladeScale * distanceScale);
-//
-//                }
-//                else if(state.getFluidState().is(FluidTags.WATER))
-//                {
-//                    this.level.addParticle(ParticleTypes.SPLASH, loc.x, loc.y, loc.z, randX * bladeScale * distanceScale, 0.02, randZ * bladeScale * distanceScale);
-//                    this.level.addParticle(ParticleTypes.BUBBLE, loc.x, loc.y, loc.z, randX * bladeScale * distanceScale, 0.02, randZ * bladeScale * distanceScale);
-//                    this.level.addParticle(ParticleTypes.CLOUD, loc.x, loc.y, loc.z, 0, 0, 0);
-//                }
+               if(state.is(BlockTags.DIRT) || state.is(Tags.Blocks.GRAVEL) || state.is(Tags.Blocks.SAND))
+               {
+                    this.level().addParticle(ModParticleTypes.DUST.get(), loc.x, loc.y, loc.z, randX * bladeScale * distanceScale, 0.02, randZ * bladeScale * distanceScale);
+
+               }
+               else if(state.getFluidState().is(FluidTags.WATER))
+               {
+                   this.level().addParticle(ParticleTypes.SPLASH, loc.x, loc.y, loc.z, randX * bladeScale * distanceScale, 0.02, randZ * bladeScale * distanceScale);
+                   this.level().addParticle(ParticleTypes.BUBBLE, loc.x, loc.y, loc.z, randX * bladeScale * distanceScale, 0.02, randZ * bladeScale * distanceScale);
+                   this.level().addParticle(ParticleTypes.CLOUD, loc.x, loc.y, loc.z, 0, 0, 0);
+               }
             }
         }
     }

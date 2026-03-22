@@ -76,6 +76,8 @@ public class VehicleMod
         RecipeTypes.REGISTER.register(eventBus);
         ModFluids.REGISTER.register(eventBus);
 
+        ModLootFunctions.register(eventBus);
+
         eventBus.addListener(this::onCommonSetup);
         eventBus.addListener(this::onGatherData);
 //        eventBus.addListener(this::registerCreativeModeTabs);

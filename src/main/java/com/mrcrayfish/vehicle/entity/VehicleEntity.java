@@ -5,6 +5,8 @@ import com.mrcrayfish.framework.entity.sync.SyncedEntityData;
 import com.mrcrayfish.vehicle.Config;
 import com.mrcrayfish.vehicle.block.VehicleCrateBlock;
 import com.mrcrayfish.vehicle.client.VehicleHelper;
+import com.mrcrayfish.vehicle.util.InventoryUtil;
+import com.mrcrayfish.vehicle.crafting.WorkstationIngredient;
 import com.mrcrayfish.vehicle.client.model.ComponentManager;
 import com.mrcrayfish.vehicle.client.model.ComponentModel;
 import com.mrcrayfish.vehicle.client.raytrace.EntityRayTracer;
@@ -765,7 +767,7 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
                     this.setHealth(this.getHealth() - amount);
                 }
                 boolean isCreativeMode = trueSource instanceof Player && ((Player) trueSource).isCreative();
-                if(isCreativeMode || this.getHealth() < 0.0F)
+                if(isCreativeMode || this.getHealth() <= 0.0F)
                 {
                     this.onVehicleDestroyed((LivingEntity) trueSource);
                     this.remove(RemovalReason.KILLED);
@@ -802,16 +804,25 @@ public abstract class VehicleEntity extends Entity implements IEntityAdditionalS
             WorkstationRecipe recipe = WorkstationRecipes.getRecipe(this.getType(), this.level());
             if(recipe != null)
             {
-                //TODO make vehicle inoperable instead of destroying
-                /*List<ItemStack> materials = recipe.getMaterials();
-                for(ItemStack stack : materials)
+                for(WorkstationIngredient material : recipe.getMaterials())
                 {
-                    ItemStack copy = stack.copy();
+                    ItemStack[] stacks = material.getItems();
+                    if(stacks.length == 0)
+                    {
+                        continue;
+                    }
+
+                    ItemStack copy = stacks[0].copy();
+                    copy.setCount(material.getCount());
+
                     int shrink = copy.getCount() / 2;
                     if(shrink > 0)
+                    {
                         copy.shrink(this.random.nextInt(shrink + 1));
-                    InventoryUtil.spawnItemStack(this.level, this.getX(), this.getY(), this.getZ(), copy);
-                }*/
+                    }
+
+                    InventoryUtil.spawnItemStack(this.level(), this.getX(), this.getY(), this.getZ(), copy);
+                }
             }
         }
     }

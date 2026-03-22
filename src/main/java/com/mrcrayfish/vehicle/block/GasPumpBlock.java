@@ -54,8 +54,7 @@ public class GasPumpBlock extends RotatedEntityObjectBlock
     public GasPumpBlock()
     {
         super(Properties.of()
-                .strength(1.0F)
-                .requiresCorrectToolForDrops());
+                .strength(1.0F));
         this.registerDefaultState(this.getStateDefinition().any()
                 .setValue(DIRECTION, Direction.NORTH)
                 .setValue(TOP, false));

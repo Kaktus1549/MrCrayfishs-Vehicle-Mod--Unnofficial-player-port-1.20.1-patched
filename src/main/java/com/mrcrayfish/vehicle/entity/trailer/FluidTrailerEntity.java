@@ -49,7 +49,7 @@ public class FluidTrailerEntity extends TrailerEntity implements IEntityAddition
 //    @Override
 //    public @NotNull InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand)
 //    {
-//        if(!this.level.isClientSide && !player.isCrouching())
+//        if(!this.level().isClientSide && !player.isCrouching())
 //        {
 //            if(FluidUtil.interactWithFluidHandler(player, hand, tank))
 //            {

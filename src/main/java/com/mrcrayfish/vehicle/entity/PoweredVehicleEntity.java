@@ -196,6 +196,11 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
 
     public void playFuelPortOpenSound()
     {
+        if(!this.level().isClientSide)
+        {
+            return;
+        }
+
         if(!this.fueling)
         {
             this.getFuelFillerType().playOpenSound();
@@ -205,6 +210,11 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
 
     public void playFuelPortCloseSound()
     {
+        if(!this.level().isClientSide)
+        {
+            return;
+        }
+
         if(this.fueling)
         {
             this.getFuelFillerType().playCloseSound();
@@ -468,8 +478,14 @@ public abstract class PoweredVehicleEntity extends VehicleEntity implements Cont
 
             if(hasJerryCan || hasGasPump)
             {
-                this.playFuelPortOpenSound();
-                this.fuelVehicle(player, hand);
+                if(this.level().isClientSide)
+                {
+                    this.playFuelPortOpenSound();
+                }
+                else
+                {
+                    this.fuelVehicle(player, hand);
+                }
                 return InteractionResult.CONSUME;
             }
 

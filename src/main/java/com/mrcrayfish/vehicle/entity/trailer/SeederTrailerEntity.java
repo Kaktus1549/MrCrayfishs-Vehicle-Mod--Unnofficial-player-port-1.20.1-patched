@@ -106,9 +106,12 @@ public class SeederTrailerEntity extends TrailerEntity implements IStorage
             }
             if(this.isSeed(seed))
             {
-                Block seedBlock = ((BlockItem) seed.getItem()).getBlock();
-                this.level().setBlockAndUpdate(pos, seedBlock.defaultBlockState());
-                seed.shrink(1);
+                if(seed.getItem() instanceof BlockItem blockItem)
+                {
+                    Block seedBlock = blockItem.getBlock();
+                    this.level().setBlockAndUpdate(pos, seedBlock.defaultBlockState());
+                    seed.shrink(1);
+                }
             }
         }
     }
@@ -128,7 +131,9 @@ public class SeederTrailerEntity extends TrailerEntity implements IStorage
 
     private boolean isSeed(ItemStack stack)
     {
-        return !stack.isEmpty() && stack.getItem() instanceof BlockItem && ((BlockItem) stack.getItem()).getBlock() instanceof FarmBlock;
+        return !stack.isEmpty()
+                && stack.getItem() instanceof BlockItem blockItem
+                && blockItem.getBlock() instanceof net.minecraft.world.level.block.CropBlock;
     }
 
     private ItemStack getSeedFromStorage(StorageTrailerEntity storageTrailer)
@@ -180,8 +185,7 @@ public class SeederTrailerEntity extends TrailerEntity implements IStorage
     private void initInventory()
     {
         StorageInventory original = this.inventory;
-        this.inventory = new StorageInventory(this, this.getDisplayName(), 3, stack ->
-                !stack.isEmpty() && stack.is(Tags.Items.SEEDS));
+        this.inventory = new StorageInventory(this, this.getDisplayName(), 3, this::isSeed);
         // Copies the inventory if it exists already over to the new instance
         if(original != null)
         {

@@ -2,8 +2,8 @@ name: Release mod
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches: ["main"]
+  pull_request:
 
 jobs:
   release:

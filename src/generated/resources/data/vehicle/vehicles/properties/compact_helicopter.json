@@ -21,7 +21,10 @@
   "extended": {
     "vehicle:powered": {
       "enginePower": 25.0,
+      "energyCapacity": 85000.0,
+      "energyConsumptionPerTick": 1.0,
       "engineSound": "vehicle:entity.vehicle.helicopter_rotor",
+      "engineType": "vehicle:large_motor",
       "exhaustFumesPosition": [
         -9.556,
         23.5,
